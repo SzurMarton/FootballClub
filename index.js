@@ -1,10 +1,19 @@
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+app.set('view engine','ejs');
+app.use(bodyParser.urlencoded());
+app.use(bodyParser.json());
 
 app.use(express.static('static'));
 
 require('./route/index')(app);
 
-var server = app.listen(3000, function () {
-    console.log("On :3000");
+app.use((err, req, res, next) => {
+    res.end('Problem...');
+    console.log(err);
+});
+
+app.listen(3000, function () {
+    console.log('Hello :3000');
 });

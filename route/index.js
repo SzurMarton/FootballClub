@@ -11,25 +11,18 @@ const getTeamMW = require('../middleware/team/getTeamMW');
 const getTeamListMW = require('../middleware/team/getTeamListMW');
 const renderMW = require('../middleware/renderMW');
 
+const TeamModel = require('../models/team');
+const PlayerModel = require('../models/player');
+
 module.exports = function (app) {
-    const objectRepository = {};
+    const objectRepository = {
+        TeamModel: TeamModel,
+        PlayerModel: PlayerModel
+    };
 
-    app.use('/',
-        passwordCheckMW(objectRepository),
-        renderMW(objectRepository,'index'));
-
-    app.get('/team',
+    app.use('/team/edit/:teamid',
         authMW(objectRepository),
-        getTeamListMW(objectRepository),
-        renderMW(objectRepository,'teamlist'));
-
-    app.use('/team/new',
-        authMW(objectRepository),
-        saveTeamMW(objectRepository),
-        renderMW(objectRepository,'teammod'));
-
-    app.use('team/edit/:teamid',
-        authMW(objectRepository),
+        getTeamMW(objectRepository),
         saveTeamMW(objectRepository),
         renderMW(objectRepository,'teammod'));
 
@@ -38,11 +31,15 @@ module.exports = function (app) {
         getTeamMW(objectRepository),
         delTeamMW(objectRepository));
 
-    app.get('/player/:teamid',
+    app.use('/team/new',
         authMW(objectRepository),
-        getTeamMW(objectRepository),
-        getPlayerListMW(objectRepository),
-        renderMW(objectRepository,'playerlist'));
+        saveTeamMW(objectRepository),
+        renderMW(objectRepository,'teammod'));
+
+    app.get('/team',
+        authMW(objectRepository),
+        getTeamListMW(objectRepository),
+        renderMW(objectRepository,'teamlist'));
 
     app.use('/player/:teamid/new',
         authMW(objectRepository),
@@ -63,7 +60,17 @@ module.exports = function (app) {
         getPlayerMW(objectRepository),
         delPlayerMW(objectRepository));
 
+    app.get('/player/:teamid',
+        authMW(objectRepository),
+        getTeamMW(objectRepository),
+        getPlayerListMW(objectRepository),
+        renderMW(objectRepository,'playerlist'));
+
     app.use('/logout',
         logoutMW(objectRepository));
+
+    app.use('/',
+        passwordCheckMW(objectRepository),
+        renderMW(objectRepository,'index'));
 
 };

@@ -1,0 +1,47 @@
+<%- include('header') -%>
+<%- include('navbar') -%>
+<main>
+    <div class="container">
+        <h2 class="row justify-content-start mt-2 p-2">Team List</h2>
+        <a class="btn btn-primary mb-2" href="/team/new">Add Team</a>
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">Team Name</th>
+                        <th scope="col">Player Count</th>
+                        <th scope="col">Coach</th>
+                        <th scope="col">Founded</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% teams.forEach(function(team){ %>
+                        <tr>
+                            <td>
+                                <%= team.teamName %>
+                            </td>
+                            <td>
+                                <%= team.playerCount %>
+                            </td>
+                            <td>
+                                <%= team.coach %>
+                            </td>
+                            <td>
+                                <%= team.founded %>
+                            </td>
+                            <td style="width:70px;white-space: nowrap">
+                                <a class="btn btn-sm btn-success" href="/player/<%= team._id%>">View Players</a>
+                                <a href="/team/edit/<%=team._id%>" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                                <a href="/team/del/<%= team._id %>" class="btn btn-sm btn-danger"><i class="fas fa-trash "></i></a>
+                            </td>
+                        </tr>
+                    <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+<%- include('footer') -%>

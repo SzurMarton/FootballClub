@@ -1,0 +1,31 @@
+<%- include('header') -%>
+<%- include('navbar') -%>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <h2 class="pt-5"><% if (typeof team === 'undefined') { %>New Team<% }else{ %>Team Modification<% } %></h2>
+            <form method="post">
+                <input type="hidden" name="_id" value="<%=(typeof team === 'undefined') ? '' : team._id%>">
+                <div class="form-group">
+                    <label for="teamname">Team Name</label>
+                    <input type="text" class="form-control" id="teamname" name="teamname" value="<%=(typeof team === 'undefined') ? '' : team.teamName%>">
+                </div>
+                <div class="form-group">
+                    <label for="playercount">Player Count</label>
+                    <input type="text" class="form-control" id="playercount" name="playercount" value="<%=(typeof team === 'undefined') ? '' : team.playerCount%>">
+                </div>
+                <div class="form-group">
+                    <label for="coach">Coach</label>
+                    <input type="text" class="form-control" id="coach" name="coach" value="<%=(typeof team === 'undefined') ? '' : team.coach%>">
+                </div>
+                <div class="form-group">
+                    <label for="founded">Founded</label>
+                    <input type="text" class="form-control" id="founded" name="founded" value="<%=(typeof team === 'undefined') ? '' : team.founded%>">
+                </div>
+                <input type="submit" class="btn btn-primary" value="Save"/>
+                <a class="btn btn-link" href="/team">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include('footer') -%>
