@@ -8,7 +8,16 @@ const requireOption = require('../requireOption');
 
 module.exports = function (objectrepository) {
     return function (req, res, next) {
+        if(typeof req.body.password === 'undefined'){
+            return next();
+        }
 
-        next();
+        if(req.body.password === 'admin'){
+            req.session.logdin = true;
+            return res.redirect('/team');
+        }
+
+        res.locals.error = 'Wrong Password!';
+        return next();
     };
 };

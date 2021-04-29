@@ -10,26 +10,28 @@ module.exports = function (objectrepository) {
     const PlayerModel = requireOption(objectrepository,'PlayerModel');
 
     return function (req, res, next) {
-        if(typeof  req.body.playerName === 'undefined' || typeof  req.body.birthdate === 'undefined' || typeof  req.body.position === 'undefined' || typeof  req.body.avgrating === 'undefined')
-        {
+        if((typeof  req.body.playerName === 'undefined') ||
+            (typeof  req.body.birthdate === 'undefined')
+            || (typeof  req.body.position === 'undefined') ||
+            (typeof  req.body.avgrating === 'undefined')){
             return next();
         }
         if(typeof res.locals.player === 'undefined'){
-            res.locals.player = new PlayerModel();
+            res.locals.team = new PlayerModel();
         }
         console.log(req.body);
+        console.log(res.locals.player);
         res.locals.player.playerName = req.body.playerName;
-        res.locals.player.birthdate = req.body.birthdate.toString();
+        res.locals.player.birthDate = req.body.birthdate;
         res.locals.player.position = req.body.position;
-        res.locals.player.avgrating = req.body.avgrating.toString();
+        res.locals.player.avgRating = req.body.avgrating;
         res.locals.player._team = res.locals.team._id;
 
-        res.locals.player.save(err => {
+        res.locals.player.save((err) => {
             if (err){
                 return next(err);
             }
-
-            return res.redirect(`/player/${res.locals.team._id}`);
+            return  res.redirect('/player/' + res.locals.team._id);
         });
     };
 };
