@@ -72,5 +72,4 @@ module.exports = function (app) {
     app.use('/',
         passwordCheckMW(objectRepository),
         renderMW(objectRepository,'index'));
-
 };
